@@ -1,10 +1,12 @@
 import os
 import time
 import random
+import datetime
 
 def log_expense(expense, cost):
+    now = datetime.datetime.now()
     with open("expenses.md", "a") as f:
-        f.write(f"""\n |{expense}| {cost}|\n""")
+        f.write(f"""\n |{expense}| {cost}| {(now.strftime("%c"))}\n""")
     with open("expense_total.md", "a") as f:
         f.write(str(cost))
         f.write("\n")
@@ -22,3 +24,5 @@ def total_expense():
             total += int(num)
     return total
 
+
+log_expense('est', 5)
