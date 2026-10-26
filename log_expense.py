@@ -24,5 +24,3 @@ def total_expense():
             total += int(num)
     return total
 
-
-log_expense('est', 5)
