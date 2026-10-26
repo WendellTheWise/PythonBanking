@@ -5,13 +5,19 @@ import random
 def log_income(income, amount):
     with open("incomes.md", "a") as f:
         f.write(f"""\n |{income}| {amount}|\n""")
+    with open("income_total.md", "a") as f:
+        f.write(str(amount))
+        f.write("\n")
     return(f"""Expense "{income}" Written As Costing {amount}""")
 
 def last_incomes():
     with open("incomes.md", "r") as f:
         in_logs = f.readlines()
-    return "".join(in_logs[-20:])
+    return "".join(in_logs[-10:])
 
-for num in range (1,50):
-    log_income("test", 2)
-print(last_incomes())
+def total_income():
+    total = 0
+    with open("income_total.md", "r") as f:
+        for num in f:
+            total += int(num)
+    return total

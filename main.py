@@ -2,19 +2,22 @@ import time
 import os
 import random
 from log_expense import *
-exit - False
+from budget import *
+from log_income import *
+exit = False
 
-while exit = False:
+while exit == False:
+    os.system('clear')
     print(f"""Welcom To Mr Pythons Banking and Management Service
     
-    Your Last 10 Logged Expenses Are
-    {last_expense}
+    Your Last 5 Logged Expenses Are
+    {last_expense()}
     
-    Your Last 10 Logged Incomes Are:
-    {last_income}
+    Your Last 5 Logged Incomes Are:
+    {last_incomes()}
     
     Your Current Usage Of Your Budget Is:
-    {budget}
+    {evaluate_budget()}
     
     The Services We Offer Are:
     
@@ -41,5 +44,4 @@ while exit = False:
     
     elif request == "budget settings":
         pass
-
 
