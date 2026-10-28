@@ -3,6 +3,7 @@ import random
 import time
 from log_expense import *
 from log_income import *
+
 def set_budget(budget):
     with open("budget.md", "w") as f:
         f.write(str(budget))
@@ -14,15 +15,23 @@ def retrieve_budget():
     return float(budgets)
 
 def evaluate_budget():
-    if total_expense() >= float(retrieve_budget()):
-        return f"""Warning! You Have Reached Or Surpassed Your Budget
-    {total_expense() - total_income()} / {retrieve_budget()}"""
+    usage = []
+    budg = retrieve_budget()
+    for num in range(1, 11):
+        if (total_expense() - total_income()) >= (budg / 10) * num:
+            usage.append("#")
+        else:
+            usage.append("-")
 
-    if (float(retrieve_budget()) - total_expense()) <= 1:
+    if total_expense() - total_income() >= float(retrieve_budget()):
+        return f"""Warning! You Have Reached Or Surpassed Your Budget
+    {total_expense() - total_income()} / {retrieve_budget()}
+    USAGE:[##########]"""
+
+    if (float(retrieve_budget()) - total_expense() + total_income()) <= 1:
         return f"""Caution! You Are Within 1 Dollar Of Your Budget
+
 {total_expense() - total_income()} / {retrieve_budget()}"""
 
-
     else:
-        return (f"{total_expense() - total_income()} / {retrieve_budget()}")
-
+        return  (f"{total_expense() - total_income()} / {retrieve_budget()}, {"".join(usage)}")
