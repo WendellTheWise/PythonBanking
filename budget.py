@@ -11,8 +11,18 @@ def set_budget(budget):
 def retrieve_budget():
     with open("budget.md", "r") as f:
         budgets = f.read()
-    return budgets
+    return float(budgets)
 
 def evaluate_budget():
-    return (f"{total_income() - total_expense()} / {retrieve_budget()}")
+    if total_expense() >= float(retrieve_budget()):
+        return f"""Warning! You Have Reached Or Surpassed Your Budget
+    {total_expense() - total_income()} / {retrieve_budget()}"""
+
+    if (float(retrieve_budget()) - total_expense()) <= 1:
+        return f"""Caution! You Are Within 1 Dollar Of Your Budget
+{total_expense() - total_income()} / {retrieve_budget()}"""
+
+
+    else:
+        return (f"{total_expense() - total_income()} / {retrieve_budget()}")
 
