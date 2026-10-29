@@ -19,20 +19,21 @@ def retrieve_budget(budget):
     return float(budgets)
 
 def retrieve_use(budget):
+    total = 0
     with open("expenses.md", "r") as f:
-        for count in f.readlines():
-            
-def evaluate_budget(buget_file):
+        for count in (f.readlines()):
+            count = count.split("|")
+            if len(count) <= 1:
+                pass
+            elif (count[4]).strip() == budget:
+                total += float(count[2])
+    return total
+
+def evaluate_budget():
     total = 0
     with open("budg_files.md".strip(), "r") as f:
         for bu in f:
-            if len(bu) <= 1:
+            if len(bu.strip()) <= 1:
                 pass
             else:
-                print(f"{bu.strip()}:{retrieve_budget(bu)}")
-                while open("expenses.md" "r") as f:
-                    check = f.readlines()
-                    for num in check:
-                        if num == ""
-set_budget(5, "test")
-(evaluate_budget())
+                print(f"{bu.strip()}:{retrieve_use(bu.strip())} / {retrieve_budget(bu)}") 

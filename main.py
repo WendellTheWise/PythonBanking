@@ -36,7 +36,8 @@ while exit == False:
 
     elif request == "log expenses":
         os.system('clear')
-        log_expense(input("What Was Your Expenditure For? "), input("How Much Did Your Expenditure Cost? "), input(f"What Budget Category Does This Expediture Belong Too {budget_cats}"))
+        with open("budg_files.md", "r") as f:
+            log_expense(input("What Was Your Expenditure For? "), input("How Much Did Your Expenditure Cost? "), input(f"What Budget Category Does This Expediture Belong Too {f}"))
         print()
         input("Press Enter To Continue")
         os.system('clear')
