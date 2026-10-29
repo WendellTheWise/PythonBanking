@@ -1,10 +1,8 @@
 import os
 import random
 import time
-from log_expense import *
-from log_income import *
 
-def set_budget(budget, bud_type):
+def set_budget(bud_type, budget):
     with open(f"{bud_type}.md", "w") as f:
         f.write(str(budget))
     with open("budg_files.md", "r") as f:
@@ -31,9 +29,35 @@ def retrieve_use(budget):
 
 def evaluate_budget():
     total = 0
+
     with open("budg_files.md".strip(), "r") as f:
         for bu in f:
             if len(bu.strip()) <= 1:
                 pass
             else:
+                usage = []
                 print(f"{bu.strip()}:{retrieve_use(bu.strip())} / {retrieve_budget(bu)}") 
+                if float(retrieve_use(bu.strip())) >= float(retrieve_budget(bu)):
+                    print("WARNING BUDGET FULLY MAXXED")
+                    print("[##########]")
+                else:
+                    for num in range(1, 11):
+                        if (retrieve_use(bu.strip())) >= (retrieve_budget(bu) / 10) * num:
+                            usage.append("#")
+                        else:
+                            usage.append("-")
+                    print(f"TOTAL USAGE")
+                    print("".join(usage))
+            
+def remove_budget():
+    empty = []
+    with open("budg_files.md".strip(), "r") as f:
+
+        for lines in f.readlines():
+            if retrieve_budget(lines) == 0.0:
+                os.remove(f"{lines.strip()}.md")
+            else:
+                empty.append(lines)
+    with open("budg_files.md", "w") as f:
+        for thang in empty:
+            f.write(thang)

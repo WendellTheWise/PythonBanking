@@ -7,6 +7,7 @@ from log_income import *
 exit = False
 
 while exit == False:
+    remove_budget()
     os.system('clear')
     print(f"""Welcom To Mr Pythons Banking and Management Service
     
@@ -25,7 +26,7 @@ while exit == False:
     Log Expenses
     Log Income
     See Full Log (Also Lets You Remove Expenses/Income)
-    Budget Settings
+    Budget Settings (Set A Budget To 0 To Remove It)
     Exit
     (Please Enter Full Name Of Requested Service, Names In Parenthesis() Should Not Be Typed)
     """)
@@ -37,7 +38,7 @@ while exit == False:
     elif request == "log expenses":
         os.system('clear')
         with open("budg_files.md", "r") as f:
-            log_expense(input("What Was Your Expenditure For? "), input("How Much Did Your Expenditure Cost? "), input(f"What Budget Category Does This Expediture Belong Too {f}"))
+            log_expense(input("What Was Your Expenditure For? "), input("How Much Did Your Expenditure Cost? "), input(f"What Budget Category Does This Expediture Belong Too? "))
         print()
         input("Press Enter To Continue")
         os.system('clear')
@@ -86,7 +87,7 @@ Expenditures:
 
     elif request == "budget settings":
         os.system('clear')
-        set_budget(input("What Is The New Budget? "), input("What Will Be The Budget Category You Are Changing or Creating? "))
+        set_budget(input("What Will Be The Name Of The Budget Category You Are Changing or Creating? "), input("What Is The New Budget Maximum Amount? "))
         print()
         input("Press Enter To Continue")
         os.system('clear')
