@@ -7,9 +7,13 @@ from log_income import *
 exit = False
 
 while exit == False:
+    sanitize()
     remove_budget()
     os.system('clear')
     print(f"""Welcom To Mr Pythons Banking and Management Service
+
+    Total Balance:
+    {total_income() - total_expense()}
     
     Your Last 5 Logged Expenses Are
     {last_expense()}

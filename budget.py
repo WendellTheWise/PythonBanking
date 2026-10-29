@@ -14,7 +14,10 @@ def set_budget(bud_type, budget):
 def retrieve_budget(budget):
     with open(f"{budget.strip()}.md", "r") as f:
         budgets = f.read()
-    return float(budgets)
+    try:
+        return float(budgets)
+    except:
+        pass
 
 def retrieve_use(budget):
     total = 0
@@ -51,13 +54,38 @@ def evaluate_budget():
             
 def remove_budget():
     empty = []
-    with open("budg_files.md".strip(), "r") as f:
-
+    try:
+        with open("budg_files.md".strip(), "r") as f:
+            for lines in f.readlines():
+                if retrieve_budget(lines) == 0.0:
+                    os.remove(f"{lines.strip()}.md")
+                else:
+                    empty.append(lines)
+        with open("budg_files.md", "w") as f:
+            for thang in empty:
+                f.write(thang)
+    except:
+        pass
+def sanitize():
+    empty = []
+    with open("expenses.md", "r") as f:
         for lines in f.readlines():
-            if retrieve_budget(lines) == 0.0:
-                os.remove(f"{lines.strip()}.md")
-            else:
+            if len(lines.split("|")) < 3:
                 empty.append(lines)
-    with open("budg_files.md", "w") as f:
+            elif (lines.split("|"))[1].strip() == "":
+                os.remove(f"{lines.split("|")[4].strip()}.md")
+                pass
+            elif lines.split("|")[2].strip() == "":
+                os.remove(f"{lines.split("|")[4].strip()}.md")
+                pass
+            else:
+                try:
+                    float(lines.split("|").strip()[2])
+                    empty.append(lines)
+                except:
+                    os.remove(f"{lines.split("|")[4].strip()}.md")
+                    pass
+
+    with open("expenses.md", "w") as f:
         for thang in empty:
             f.write(thang)
