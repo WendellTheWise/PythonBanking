@@ -2,6 +2,7 @@ import os
 import time
 import random
 import datetime
+
 def log_income(income, amount):
     now = datetime.datetime.now()
     with open("incomes.md", "a") as f:

@@ -16,9 +16,10 @@ while exit == False:
     Your Last 5 Logged Incomes Are:
     {last_incomes()}
     
-    Your Current Usage Of Your Budget Is:
+    Your Current Usage Of Your Budgets Are:""")
     {evaluate_budget()}
-    
+    print("""
+
     The Services We Offer Are:
     
     Log Expenses
@@ -35,7 +36,7 @@ while exit == False:
 
     elif request == "log expenses":
         os.system('clear')
-        log_expense(input("What Was Your Expenditure For? "), input("How Much Did Your Expenditure Cost? "))
+        log_expense(input("What Was Your Expenditure For? "), input("How Much Did Your Expenditure Cost? "), input(f"What Budget Category Does This Expediture Belong Too {budget_cats}"))
         print()
         input("Press Enter To Continue")
         os.system('clear')
@@ -84,7 +85,7 @@ Expenditures:
 
     elif request == "budget settings":
         os.system('clear')
-        set_budget(input("What Is The New Budget? "))
+        set_budget(input("What Is The New Budget? "), input("What Will Be The Budget Category You Are Changing or Creating? "))
         print()
         input("Press Enter To Continue")
         os.system('clear')

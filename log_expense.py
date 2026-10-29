@@ -3,10 +3,10 @@ import time
 import random
 import datetime
 
-def log_expense(expense, cost):
+def log_expense(expense, cost, budget):
     now = datetime.datetime.now()
     with open("expenses.md", "a") as f:
-        f.write(f"""\n |{expense}| {cost}| {(now.strftime("%c"))}| \n""")
+        f.write(f"""\n |{expense}| {cost}| {(now.strftime("%c"))}| {budget} \n""")
 
     return f"""Expense "{expense}" Written As Costing {cost}"""
 

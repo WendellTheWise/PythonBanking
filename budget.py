@@ -4,34 +4,35 @@ import time
 from log_expense import *
 from log_income import *
 
-def set_budget(budget):
-    with open("budget.md", "w") as f:
+def set_budget(budget, bud_type):
+    with open(f"{bud_type}.md", "w") as f:
         f.write(str(budget))
-    return f"""Budget Set To {budget}"""
+    with open("budg_files.md", "r") as f:
+        if bud_type.strip() not in f.read().splitlines():
+            with open("budg_files.md", "a") as f:
+                f.write(f"{bud_type}\n")
+    return f"""Budget Category {bud_type} Set To {budget}"""
 
-def retrieve_budget():
-    with open("budget.md", "r") as f:
+def retrieve_budget(budget):
+    with open(f"{budget.strip()}.md", "r") as f:
         budgets = f.read()
     return float(budgets)
 
-def evaluate_budget():
-    usage = []
-    budg = retrieve_budget()
-    for num in range(1, 11):
-        if (total_expense() - total_income()) >= (budg / 10) * num:
-            usage.append("#")
-        else:
-            usage.append("-")
-
-    if total_expense() - total_income() >= float(retrieve_budget()):
-        return f"""Warning! You Have Reached Or Surpassed Your Budget
-    {total_expense() - total_income()} / {retrieve_budget()}
-    USAGE:[##########]"""
-
-    if (float(retrieve_budget()) - total_expense() + total_income()) <= 1:
-        return f"""Caution! You Are Within 1 Dollar Of Your Budget
-
-{total_expense() - total_income()} / {retrieve_budget()}"""
-
-    else:
-        return  (f"{total_expense() - total_income()} / {retrieve_budget()}, {"".join(usage)}")
+def retrieve_use(budget):
+    with open("expenses.md", "r") as f:
+        for count in f.readlines():
+            
+def evaluate_budget(buget_file):
+    total = 0
+    with open("budg_files.md".strip(), "r") as f:
+        for bu in f:
+            if len(bu) <= 1:
+                pass
+            else:
+                print(f"{bu.strip()}:{retrieve_budget(bu)}")
+                while open("expenses.md" "r") as f:
+                    check = f.readlines()
+                    for num in check:
+                        if num == ""
+set_budget(5, "test")
+(evaluate_budget())
