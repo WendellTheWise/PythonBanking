@@ -35,8 +35,9 @@ while exit == False:
     Log Expenses
     Log Income
     See Full Log (Also Lets You Remove Expenses/Income)
-    Budget Settings (Set A Budget To 0 To Remove It)
-    Goal Settings (Set A Goals Success Amount To 0 To Remove It)
+    Change Budgets (Set A Budget To 0 To Remove It)
+    Change Goals(Set A Goals Success Amount To 0 To Remove It)
+    Settings (Change Whether Expenses are No Longer Counted For Budgets After 1 Month)
     Exit
     (Please Enter Full Name Of Requested Service, Names In Parenthesis() Should Not Be Typed)
     """)
@@ -95,18 +96,28 @@ Expenditures:
         input("Press Enter To Contineu")
         os.system('clear')
 
-    elif request == "budget settings":
+    elif request == "change budgets":
         os.system('clear')
-        print(retrieve_budget())
+        print(evaluate_budget())
         set_budget(input("What Will Be The Name Of The Budget Category You Are Changing or Creating? "), input("What Is The New Budget Maximum Amount? "))
         print()
         input("Press Enter To Continue")
         os.system('clear')
 
-    elif request == "goal settings":
+    elif request == "change goals":
         os.system('clear')
         print(evaluate_goals())
         set_goals(input("What Will Be The Name Of The Goal You Are Changing or Creating? "), input("What Is The New Goal Success Amount? "))
         print()
         input("Press Enter To Continue")
         os.system('clear')
+    
+    elif request == "settings":
+        y = input("Would You Like To Turn Automatic Budget Reset On or Off? ").lower()
+        with open("reset.md", "w") as q:
+            if y == "on":
+                q.write("true")
+                change = input("Montly Budget Resets Are Now On. Press Enter To Continue")
+            if y == "off":
+                q.write("false")
+                change = input("Montly Budget Resets Are Now Off. Press Enter To Continue")

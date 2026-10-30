@@ -1,6 +1,7 @@
 import os
 import random
 import time
+from datetime import datetime
 
 def set_budget(bud_type, budget):
     with open(f"budgets/{bud_type}.md", "w") as f:
@@ -21,13 +22,18 @@ def retrieve_budget(budget):
 
 def retrieve_use(budget):
     total = 0
-    with open("expenses.md", "r") as f:
-        for count in (f.readlines()):
-            count = count.split("|")
-            if len(count) <= 1:
-                pass
-            elif (count[4]).strip() == budget:
-                total += float(count[2])
+    now = datetime.now()
+    now = now.strftime("%Y-%m")
+    with open("reset.md", "r") as a:
+        a = a.readline()
+        with open("expenses.md", "r") as f:
+            for count in (f.readlines()):
+                count = count.split("|")
+                if len(count) <= 1:
+                    pass
+                elif (count[4]).strip() == budget:
+                    if (count[3]).strip()[:7] == now or a.strip()== "false":
+                        total += float(count[2])
     return total
 
 def evaluate_budget():
@@ -68,6 +74,7 @@ def remove_budget():
                 f.write(thang)
     except:
         pass
+
 
 def sanitize():
     empty = []
