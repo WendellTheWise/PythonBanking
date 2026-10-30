@@ -2,12 +2,23 @@ import os
 import time
 import random
 import datetime
+from budget import *
+from goals import *
 
-def log_income(income, amount):
+def log_income(income, amount, goal):
     now = datetime.datetime.now()
     with open("incomes.md", "a") as f:
-        f.write(f"""\n |{income}| {amount}| {now.strftime("%c")}| \n""")
-    return(f"""Income "{income}" Written As Receiving {amount}""")
+        f.write(f"""\n |{income}| {amount}| {(now.strftime("%Y-%m-%d %H:%M"))}| {goal} \n""")
+    with open("goals/goal_files.md", "r") as f:
+        if goal not in f.read().splitlines():
+            set_goals(goal, input("It Appears The Goal You Assigned This To Does Not Exist, We Have Created A New Goal  For You. What Is The Success Point Of This Goal? "))
+    return f"""Income "{income}" Written As Receiving {amount}"""
+
+#def log_income(income, amount):
+    #now = datetime.datetime.now()
+    #with open("incomes.md", "a") as f:
+    #   f.write(f"""\n |{income}| {amount}| {now.strftime("%c")}| \n""")
+    #return(f"""Income "{income}" Written As Receiving {amount}""")
 
 def last_incomes():
     with open("incomes.md", "r") as f:

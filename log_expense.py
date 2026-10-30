@@ -7,10 +7,10 @@ from budget import set_budget
 def log_expense(expense, cost, budget):
     now = datetime.datetime.now()
     with open("expenses.md", "a") as f:
-        f.write(f"""\n |{expense}| {cost}| {(now.strftime("%c"))}| {budget} \n""")
-    with open("budg_files.md", "r") as f:
-        if budget not in f.readlines():
-            set_budget(budget, input("It Appears The Budget You Assigned This To Does Not Exist, We Have Created A New Budget Category For You. What Is The Money Maximum Of This Budget?"))
+        f.write(f"""\n |{expense}| {cost}| {(now.strftime("%Y-%m-%d %H:%M"))}| {budget} \n""")
+    with open("budgets/budg_files.md", "r") as f:
+        if budget not in f.read().splitlines():
+            set_budget(budget, input("It Appears The Budget You Assigned This To Does Not Exist, We Have Created A New Budget Category For You. What Is The Money Maximum Of This Budget? "))
     return f"""Expense "{expense}" Written As Costing {cost}"""
 
 def last_expense():

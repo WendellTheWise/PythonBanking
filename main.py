@@ -4,11 +4,14 @@ import random
 from log_expense import *
 from budget import *
 from log_income import *
+from goals import *
 exit = False
-
+os.makedirs("budgets", exist_ok=True)
+os.makedirs("goals", exist_ok=True)
 while exit == False:
     sanitize()
     remove_budget()
+    remove_goal()
     os.system('clear')
     print(f"""Welcom To Mr Pythons Banking and Management Service
 
@@ -24,13 +27,16 @@ while exit == False:
     Your Current Usage Of Your Budgets Are:""")
     {evaluate_budget()}
     print("""
-
+    Your Current Goals Are:""")
+    {evaluate_goals()}
+    print("""
     The Services We Offer Are:
     
     Log Expenses
     Log Income
     See Full Log (Also Lets You Remove Expenses/Income)
     Budget Settings (Set A Budget To 0 To Remove It)
+    Goal Settings (Set A Goals Success Amount To 0 To Remove It)
     Exit
     (Please Enter Full Name Of Requested Service, Names In Parenthesis() Should Not Be Typed)
     """)
@@ -41,14 +47,14 @@ while exit == False:
 
     elif request == "log expenses":
         os.system('clear')
-        with open("budg_files.md", "r") as f:
+        with open("budgets/budg_files.md", "r") as f:
             log_expense(input("What Was Your Expenditure For? "), input("How Much Did Your Expenditure Cost? "), input(f"What Budget Category Does This Expediture Belong Too? "))
         print()
         input("Press Enter To Continue")
         os.system('clear')
     elif request == "log income":
         os.system('clear')
-        log_income(input("What Was The Reason For Your Income? "), input("You Much Did You Receive? "))
+        log_income(input("What Was The Reason For Your Income? "), input("You Much Did You Receive? "), input(f"What Goal Are You Putting This Money Towards? "))
         print()
         input("Press Enter To Continue")
         os.system('clear')
@@ -91,7 +97,16 @@ Expenditures:
 
     elif request == "budget settings":
         os.system('clear')
+        print(retrieve_budget())
         set_budget(input("What Will Be The Name Of The Budget Category You Are Changing or Creating? "), input("What Is The New Budget Maximum Amount? "))
+        print()
+        input("Press Enter To Continue")
+        os.system('clear')
+
+    elif request == "goal settings":
+        os.system('clear')
+        print(evaluate_goals())
+        set_goals(input("What Will Be The Name Of The Goal You Are Changing or Creating? "), input("What Is The New Goal Success Amount? "))
         print()
         input("Press Enter To Continue")
         os.system('clear')
