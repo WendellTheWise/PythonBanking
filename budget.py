@@ -38,13 +38,14 @@ def retrieve_use(budget):
 
 def evaluate_budget():
     total = 0
-
+    percent = 0
     with open("budgets/budg_files.md".strip(), "r") as f:
         for bu in f:
             if len(bu.strip()) <= 1:
                 pass
             else:
                 usage = []
+                percent = 0
                 print(f"{bu.strip()}:{retrieve_use(bu.strip())} / {retrieve_budget(bu)}") 
                 if float(retrieve_use(bu.strip())) >= float(retrieve_budget(bu)):
                     print("WARNING BUDGET FULLY MAXXED")
@@ -53,10 +54,11 @@ def evaluate_budget():
                     for num in range(1, 11):
                         if (retrieve_use(bu.strip())) >= (retrieve_budget(bu) / 10) * num:
                             usage.append("#")
+                            percent += 10
                         else:
                             usage.append("-")
                     print(f"TOTAL USAGE")
-                    print("".join(usage))
+                    print(f"{"".join(usage)} {percent}%")
             
 def remove_budget():
     empty = []
