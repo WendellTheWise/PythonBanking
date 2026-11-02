@@ -1,14 +1,12 @@
 #!/bin/sh
 set -e
 
-# ---- Edit these for each project ----
-NAME="budget-tracker"          # lowercase, no spaces: becomes the command you type
-MAIN="main.py"            # file that starts the program
+NAME="budget-tracker"
+MAIN="main.py"
 DESCRIPTION="A python, terminal run, budget, income and expenses tracker"
-MAINTAINER="Odin Kirkham okir9913@gmail.com"
-# -------------------------------------
+MAINTAINER="Odin Kirkham <okir9913@gmail.com>"
 
-VERSION="${1:-1.4}"
+VERSION="${1:-1.0.0}"
 PKG="${NAME}_${VERSION}_all"
 
 rm -rf "$PKG"
@@ -18,15 +16,16 @@ tar --exclude=./.git --exclude=./.github --exclude=./build-deb.sh \
     --exclude=./.gitignore --exclude="./${NAME}_*" --exclude='__pycache__' \
     -cf - . | tar -xf - -C "$PKG/usr/share/$NAME"
 
-cat > "$PKG/usr/bin/$NAME" <<EOF
-#!/bin/sh
-exec python3 /usr/share/$NAME/$MAIN "\$@"
-EOF
+echo '#!/bin/sh' > "$PKG/usr/bin/$NAME"
+echo "exec python3 /usr/share/$NAME/$MAIN \"\$@\"" >> "$PKG/usr/bin/$NAME"
 chmod 755 "$PKG/usr/bin/$NAME"
 
-cat > "$PKG/DEBIAN/control" <<EOF
-Package: $NAME
-Version: $VERSION
-Architecture: all
-Maintainer: $MAINTAINER
-Depends
+echo "Package: $NAME" > "$PKG/DEBIAN/control"
+echo "Version: $VERSION" >> "$PKG/DEBIAN/control"
+echo "Architecture: all" >> "$PKG/DEBIAN/control"
+echo "Maintainer: $MAINTAINER" >> "$PKG/DEBIAN/control"
+echo "Depends: python3" >> "$PKG/DEBIAN/control"
+echo "Description: $DESCRIPTION" >> "$PKG/DEBIAN/control"
+
+dpkg-deb --build --root-owner-group "$PKG"
+echo "Built $PKG.deb"
