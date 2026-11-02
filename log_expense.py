@@ -37,15 +37,20 @@ def full_expense():
 
 def remove_expense(item):
     empty = []
+    found = False
     with open("expenses.md", "r") as f:
         for line in f.readlines():
             if len(line.split("|")) <= 1:
                 pass
             else:
                 if line.split("|")[1] == item:
-                    pass
+                    found = True
                 else:
                     empty.append(line)
+        if found == False:
+            print("Sorry, We Could Not Find That Item, Please Try Again")
+            input("Press Enter To Continue")
+            os.system('clear')
 
     with open("expenses.md", "w") as f:
         for thing in empty:

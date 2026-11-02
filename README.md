@@ -14,3 +14,5 @@ Recurring expenses and incomes repeat themselves every month, starting on the da
 Requires Python, Not sure what version is needed, but I used python3.14.4
 
 Functions on Linux, Probably on WSL, Do not think it will work on MacOS or Windows without some kind of port
+
+To run, Download the .deb and double click, then, in your root, enter "budget-tracker" and it will run

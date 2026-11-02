@@ -85,20 +85,14 @@ def sanitize():
             if len(lines.split("|")) < 3:
                 empty.append(lines)
             elif (lines.split("|"))[1].strip() == "":
-                if os.path.exists(f"budgets/{lines.split("|")[4].strip()}.md"):
-                    os.remove(f"budgets/{lines.split("|")[4].strip()}.md")
                 pass
             elif lines.split("|")[2].strip() == "":
-                if os.path.exists(f"budgets/{lines.split("|")[4].strip()}.md"):
-                    os.remove(f"budgets/{lines.split("|")[4].strip()}.md")
                 pass
             else:
                 try:
                     float(lines.split("|")[2].strip())
                     empty.append(lines)
                 except ValueError:
-                    if os.path.exists(f"budgets/{lines.split("|")[4].strip()}.md"):
-                        os.remove(f"budgets/{lines.split("|")[4].strip()}.md")
                     pass
 
     with open("expenses.md", "w") as f:
@@ -112,20 +106,14 @@ def sanitize():
             if len(lines.split("|")) < 3:
                 empty.append(lines)
             elif (lines.split("|"))[1].strip() == "":
-                if os.path.exists(f"goals/{lines.split("|")[4].strip()}.md"):
-                    os.remove(f"goals/{lines.split("|")[4].strip()}.md")
                 pass
             elif lines.split("|")[2].strip() == "":
-                if os.path.exists(f"goals/{lines.split("|")[4].strip()}.md"):
-                    os.remove(f"goals/{lines.split("|")[4].strip()}.md")
                 pass
             else:
                 try:
                     float(lines.split("|")[2].strip())
                     empty.append(lines)
                 except:
-                    if os.path.exists(f"goals/{lines.split("|")[4].strip()}.md"):
-                        os.remove(f"goals/{lines.split("|")[4].strip()}.md")
                     pass
 
     with open("incomes.md", "w") as f:

@@ -1,5 +1,36 @@
-import time
+#needed to make the download work. This was Claude Generated
 import os
+import shutil
+
+APP_DIR = os.path.dirname(os.path.abspath(__file__))   # where the code lives
+DATA_DIR = os.path.expanduser("~/.budget_tracker")     # where the data lives
+
+SKIP_FOLDERS = ("__pycache__", ".git", ".github")
+SKIP_FILES = ("README.md",)
+
+# Copy any starter .md files and folders the data folder doesn't have yet
+for root, dirs, files in os.walk(APP_DIR):
+    dirs[:] = [d for d in dirs if d not in SKIP_FOLDERS and not d.endswith("_all")]
+
+    relative = os.path.relpath(root, APP_DIR)
+    target_folder = os.path.join(DATA_DIR, relative)
+    os.makedirs(target_folder, exist_ok=True)
+
+    for name in files:
+        if name.endswith(".md") and name not in SKIP_FILES:
+            target = os.path.join(target_folder, name)
+            if not os.path.exists(target):
+                shutil.copy(os.path.join(root, name), target)
+
+# Work inside the data folder from now on
+os.chdir(DATA_DIR)
+
+# Make sure the folders the program saves into always exist
+os.makedirs("budgets", exist_ok=True)
+os.makedirs("goals", exist_ok=True)
+
+#the actual code, this was almost entirely made by Me
+import time
 import random
 from log_expense import *
 from budget import *
@@ -20,17 +51,17 @@ while exit == False:
     Total Balance:
     {total_income() - total_expense()}
 
-    Your Last 10 Logged Expenses Are
+    Your Last 5 Logged Expenses Are
     {last_expense()}
     
-    Your Last 10 Logged Incomes Are:
+    Your Last 5 Logged Incomes Are:
     {last_incomes()}
     
     Your Current Usage Of Your Budgets Are:""")
-    {evaluate_budget()}
+    evaluate_budget()
     print("""
     Your Current Goals Are:""")
-    {evaluate_goals()}
+    evaluate_goals()
     print("""
     The Services We Offer Are:
     
@@ -102,7 +133,7 @@ Expenditures:
 
     elif request == "change budgets" or request == "4":
         os.system('clear')
-        print(evaluate_budget())
+        evaluate_budget()
         set_budget(input("What Will Be The Name Of The Budget Category You Are Changing or Creating? "), input("What Is The New Budget Maximum Amount? "))
         print()
         input("Press Enter To Continue")
@@ -110,7 +141,7 @@ Expenditures:
 
     elif request == "change goals" or request == "5":
         os.system('clear')
-        print(evaluate_goals())
+        evaluate_goals()
         set_goals(input("What Will Be The Name Of The Goal You Are Changing or Creating? "), input("What Is The New Goal Success Amount? "))
         print()
         input("Press Enter To Continue")
@@ -129,7 +160,6 @@ Expenditures:
             elif y == "off":
                 with open("reset.md", "w") as q:
                     q.write("false")
-                with open("reset.md", "w") as q:
                     change = input("Monthly Budget Resets Are Now Off. Press Enter To Continue")
             else:
                 input("Please Enter On or Off")
