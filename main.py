@@ -12,17 +12,18 @@ while exit == False:
     sanitize()
     remove_budget()
     remove_goal()
-    do_recurring_expense
+    do_recurring_expense()
+    do_recurring_income()
     os.system('clear')
-    print(f"""Welcom To Mr Pythons Banking and Management Service
+    print(f"""Welcome To Mr Pythons Banking and Management Service
 
     Total Balance:
     {total_income() - total_expense()}
-    
-    Your Last 5 Logged Expenses Are
+
+    Your Last 10 Logged Expenses Are
     {last_expense()}
     
-    Your Last 5 Logged Incomes Are:
+    Your Last 10 Logged Incomes Are:
     {last_incomes()}
     
     Your Current Usage Of Your Budgets Are:""")
@@ -39,25 +40,26 @@ while exit == False:
     4: Change Budgets (Set A Budget To 0 To Remove It)
     5: Change Goals(Set A Goals Success Amount To 0 To Remove It)
     6: Automatic Budget Reset Toggle
-    7: Recurring Expenses (Day Of Recursion Is Set To Today, Requires A First Expense To Be Entered When Selected)
-    8: Exit
+    7: Recurring Expense (Day Of Recursion Is Set To Today, Requires A First Expense To Be Entered When Selected)
+    8: Recurring Income (Day of Recursion Is Set To Today, Requires A First Income To be Entered When Selected)
+    9: Exit
     (Please Enter Full Name Of Requested Service Or The Associated Number)
     """)
     request = input("What Service Would You Like To View? ").lower()
 
-    if request == "exit" or request == "8":
+    if request == "exit" or request == "9":
         exit = True
 
     elif request == "log expenses" or request == "1":
         os.system('clear')
         with open("budgets/budg_files.md", "r") as f:
-            log_expense(input("What Was Your Expenditure For? "), input("How Much Did Your Expenditure Cost? "), input(f"What Budget Category Does This Expediture Belong Too? "))
+            log_expense(input("What Was Your Expenditure For? "), input("How Much Did Your Expenditure Cost? "), input(f"What Budget Category Does This Expenditure Belong Too? "))
         print()
         input("Press Enter To Continue")
         os.system('clear')
     elif request == "log income" or request == "2":
         os.system('clear')
-        log_income(input("What Was The Reason For Your Income? "), input("You Much Did You Receive? "), input(f"What Goal Are You Putting This Money Towards? "))
+        log_income(input("What Was The Reason For Your Income? "), input("How Much Did You Receive? "), input(f"What Goal Are You Putting This Money Towards? "))
         print()
         input("Press Enter To Continue")
         os.system('clear')
@@ -95,7 +97,7 @@ Expenditures:
                 print(full_income())
                 remove_income(input("What Income Would You Like To Remove? "))
 
-        input("Press Enter To Contineu")
+        input("Press Enter To Continue")
         os.system('clear')
 
     elif request == "change budgets" or request == "4":
@@ -123,17 +125,22 @@ Expenditures:
             if y == "on":
                 with open("reset.md", "w") as q:
                     q.write("true")
-                    change = input("Montly Budget Resets Are Now On. Press Enter To Continue")
+                    change = input("Monthly Budget Resets Are Now On. Press Enter To Continue")
             elif y == "off":
                 with open("reset.md", "w") as q:
                     q.write("false")
                 with open("reset.md", "w") as q:
-                    change = input("Montly Budget Resets Are Now Off. Press Enter To Continue")
+                    change = input("Monthly Budget Resets Are Now Off. Press Enter To Continue")
             else:
                 input("Please Enter On or Off")
                 good = False
         
     elif request == "recurring expense" or request == "7":
         os.system('clear')
-        recurring_expense(input("What Is The Name Of The Recurring Expense? "), input("How Much Is The Recurring Expense? "), input("What Budget Will This Recurring Expense Add Too? "))
+        recurring_expense(input("What Is The Name Of The Recurring Expense? "), input("How Much Is The Recurring Expense? "), input("What Budget Will This Recurring Expense Add To? "))
+        os.system('clear')
+
+    elif request == "recurring income" or request == "8":
+        os.system('clear')
+        recurring_income(input("What Is The Name Of The Recurring Income? "), input("How Much Is The Recurring Income? "), input("What Goal Will This Recurring Income Add To? "))
         os.system('clear')

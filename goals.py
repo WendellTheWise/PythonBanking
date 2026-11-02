@@ -12,10 +12,13 @@ def set_goals(goal_type, goal_amount):
     return f"""Goal Category {goal_type} Set To {goal_amount}"""
 
 def retrieve_goals(goal):
-    with open(f"goals/{goal.strip()}.md", "r") as f:
-        go = f.read()
     try:
-        return float(go)
+        with open(f"goals/{goal.strip()}.md", "r") as f:
+            go = f.read()
+        try:
+            return float(go)
+        except:
+            return 0
     except:
         return 0
 
@@ -60,7 +63,8 @@ def remove_goal():
                 if len(lines.strip()) <= 0:
                     pass
                 elif retrieve_goals(lines.strip()) == 0.0:
-                    os.remove(f"goals/{lines.strip()}.md")
+                    if os.path.exists(f"goals/{lines.strip()}.md"):
+                        os.remove(f"goals/{lines.strip()}.md")
                 else:
                     empty.append(lines)
         with open("goals/goal_files.md", "w") as f:

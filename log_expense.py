@@ -55,38 +55,35 @@ def recurring_expense(expense, cost, budget):
     now = datetime.datetime.now()
     now = now.strftime("%Y-%m-%d")
     with open("times.md", "a") as f:
-        f.write(f"{expense}|{cost}|{budget}|{now}|expense\n")
+        f.write(f"{expense}|{cost}|{budget}|{now}|expense|{1}\n")
     log_expense(expense, cost, budget)
 
 def do_recurring_expense():
-    now = datetime.datetime.now()
-    now = now.strftime("%Y-%m-%d")
+    now = datetime.date.today()
     new = []
     with open("times.md") as f:
         for line in f.read().splitlines():      
             line0 = line.strip().split("|")[0]
             line1 = line.strip().split("|")[1]
             line2 = line.strip().split("|")[2]
-            line3 = line.strip().split("|")[3]
+            start = line.strip().split("|")[3]
             line4 = line.strip().split("|")[4]
             if line4 == "expense":
-                last_month = line3.split("-")[1]
-                this_month = now.split("-")[1]
-                last_day = line3.split("-")[2]
-                this_day = now.split("-")[2]
-                last_year = line3.split("-")[0]
-                this_year = now.split("-")[0]
-                if last_month != this_month or last_year != this_year:
-                    if int(this_month) - int(last_month) >= 2 or int(this_year) != int(last_year) > 0:
-                        for num in range(1, ((int(this_year) - int(last_year)) * 12) + (int(this_month) - int(last_month))):
-                            log_expense(line0, line1,line2)
-                    if int(this_day) >= int(last_day):
-                        log_expense(line0, line1, line2)
-                    new.append(f"{line0}|{line1}|{line2}|{now}|{line4}")
-                else:
-                    new.append(line)
+                line5 = line.strip().split("|")[5]
+                count = int(line5)
+                start = datetime.date.fromisoformat(start)
+                should_be = (now.year - start.year) * 12 + (now.month - start.month)
+                if now.day < start.day:
+                    should_be -= 1
+                should_be += 1
+                for num in range((should_be - count)):
+                    log_expense(line0, line1, line2)
+                new.append(f"{line0}|{line1}|{line2}|{start}|{line4}|{should_be}")
             else:
                 new.append(line)
 
     with open("times.md", "w") as q:
-        q.write(f"{"\n".join(new)}\n")
+        if len(new) == 0:
+            q.write(f"{"\n".join(new)}")
+        else:
+            q.write(f"{"\n".join(new)}\n")

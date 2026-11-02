@@ -13,10 +13,13 @@ def set_budget(bud_type, budget):
     return f"""Budget Category {bud_type} Set To {budget}"""
 
 def retrieve_budget(budget):
-    with open(f"budgets/{budget.strip()}.md", "r") as f:
-        budgets = f.read()
     try:
-        return float(budgets)
+        with open(f"budgets/{budget.strip()}.md", "r") as f:
+            budgets = f.read()
+        try:
+            return float(budgets)
+        except:
+            return 0
     except:
         return 0
 
@@ -62,21 +65,18 @@ def evaluate_budget():
             
 def remove_budget():
     empty = []
-    try:
-        with open("budgets/budg_files.md".strip(), "r") as f:
-            for lines in f.readlines():
-                if len(lines.strip()) <= 0:
-                    pass
-                elif retrieve_budget(lines) == 0.0:
+    with open("budgets/budg_files.md".strip(), "r") as f:
+        for lines in f.readlines():
+            if len(lines.strip()) <= 0:
+                pass
+            elif retrieve_budget(lines) == 0.0: 
+                if os.path.exists(f"budgets/{lines.strip()}.md"):
                     os.remove(f"budgets/{lines.strip()}.md")
-                else:
-                    empty.append(lines)
-        with open("budgets/budg_files.md", "w") as f:
-            for thang in empty:
-                f.write(thang)
-    except:
-        pass
-
+            else:
+                empty.append(lines)
+    with open("budgets/budg_files.md", "w") as f:
+        for thang in empty:
+            f.write(thang)
 
 def sanitize():
     empty = []
@@ -85,17 +85,20 @@ def sanitize():
             if len(lines.split("|")) < 3:
                 empty.append(lines)
             elif (lines.split("|"))[1].strip() == "":
-                os.remove(f"budgets/{lines.split("|")[4].strip()}.md")
+                if os.path.exists(f"budgets/{lines.split("|")[4].strip()}.md"):
+                    os.remove(f"budgets/{lines.split("|")[4].strip()}.md")
                 pass
             elif lines.split("|")[2].strip() == "":
-                os.remove(f"budgets/{lines.split("|")[4].strip()}.md")
+                if os.path.exists(f"budgets/{lines.split("|")[4].strip()}.md"):
+                    os.remove(f"budgets/{lines.split("|")[4].strip()}.md")
                 pass
             else:
                 try:
                     float(lines.split("|")[2].strip())
                     empty.append(lines)
                 except ValueError:
-                    os.remove(f"budgets/{lines.split("|")[4].strip()}.md")
+                    if os.path.exists(f"budgets/{lines.split("|")[4].strip()}.md"):
+                        os.remove(f"budgets/{lines.split("|")[4].strip()}.md")
                     pass
 
     with open("expenses.md", "w") as f:
@@ -109,17 +112,20 @@ def sanitize():
             if len(lines.split("|")) < 3:
                 empty.append(lines)
             elif (lines.split("|"))[1].strip() == "":
-                os.remove(f"goals/{lines.split("|")[4].strip()}.md")
+                if os.path.exists(f"goals/{lines.split("|")[4].strip()}.md"):
+                    os.remove(f"goals/{lines.split("|")[4].strip()}.md")
                 pass
             elif lines.split("|")[2].strip() == "":
-                os.remove(f"goals/{lines.split("|")[4].strip()}.md")
+                if os.path.exists(f"goals/{lines.split("|")[4].strip()}.md"):
+                    os.remove(f"goals/{lines.split("|")[4].strip()}.md")
                 pass
             else:
                 try:
                     float(lines.split("|")[2].strip())
                     empty.append(lines)
                 except:
-                    os.remove(f"goals/{lines.split("|")[4].strip()}.md")
+                    if os.path.exists(f"goals/{lines.split("|")[4].strip()}.md"):
+                        os.remove(f"goals/{lines.split("|")[4].strip()}.md")
                     pass
 
     with open("incomes.md", "w") as f:
